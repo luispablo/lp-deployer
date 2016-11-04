@@ -1,6 +1,6 @@
 {
   "name": "lp-deployer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Run pre, post, local and remote scripts; and upload files (creating directories if necessary) if you need to. All through SSH",
   "main": "dist/index.js",
   "repository": {
@@ -22,6 +22,9 @@
     "inquirer": "^1.2.2",
     "progress": "^1.1.8",
     "ssh2": "^0.5.2"
+  },
+  "bin": {
+    "lpd": "dist/index.js"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

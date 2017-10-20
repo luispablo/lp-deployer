@@ -1,6 +1,6 @@
 {
   "name": "lp-deployer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Run pre, post, local and remote scripts; and upload files (creating directories if necessary) if you need to. All through SSH",
   "main": "dist/index.js",
   "repository": {

@@ -7,11 +7,25 @@ const runRemote = function (conn, command) {
     console.info(`- [REMOTE] ${chalk.green(command.script)}`);
     conn.exec(command.script, function (error, stream) {
       if (error) {
-        reject(error);
+        if (command.continueOnError) {
+          console.info(`- [REMOTE] ${chalk.yellow(command.script)}`);
+          console.info(`              ${chalk.red(error)}`);
+          resolve();
+        } else {
+          reject(error);
+        }
       } else {
         stream.on("close", () => resolve())
               .on("data", data => console.info(chalk.blue.bold(data)))
-              .stderr.on("data", data => reject(data));
+              .stderr.on("data", function (data) {
+                if (command.continueOnError) {
+                  console.info(`- [REMOTE] ${chalk.yellow(command.script)}`);
+                  console.info(`            ${chalk.red(data)}`);
+                  resolve();
+                } else {
+                  reject(data);
+                }
+              });
       }
     });
   });
@@ -22,7 +36,13 @@ const runLocal = function (command) {
     console.info(`- [LOCAL] ${chalk.green(command.script)}`);
     exec(command.script, function (error, stdout, stderr) {
       if (error) {
-        reject(error);
+        if (command.continueOnError) {
+          console.info(`- [LOCAL] ${chalk.yellow(command.script)}`);
+          console.info(`             ${chalk.red(error)}`);
+          resolve();
+        } else {
+          reject(error);
+        }
       } else {
         if (stdout) console.info(chalk.blue.bold(stdout));
         resolve();

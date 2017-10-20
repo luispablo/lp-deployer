@@ -31,7 +31,7 @@ The configuration file should be like this:
   "commands": {
     "pre": [
       { "location": "local", "script": "yarn run build-prod" },
-      { "location": "remote", "script": "systemctl stop yourawesomeapp_service" }
+      { "location": "remote", "script": "systemctl stop yourawesomeapp_service", "continueOnError": true }
     ],
     "post": [
       { "location": "remote", "script": "yarn --prod" },
@@ -63,6 +63,10 @@ The target server to upload files and / or run remote commands.
 ### commands
 
 Here you have two groups: **pre** and **post**. The **pre** group will be run before uploading files to the target, and the **post** group after. In each command you can specify if it has to be run locally in the computer from where you're deploying, or remotely in the target server.
+
+#### continueOnError
+
+By default this is **false**, and will halt the whole process if this command fails. When you set it to **true** you're saying that you want to continue with the other commands even if this one fails.
 
 ### upload
 
